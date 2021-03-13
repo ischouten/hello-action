@@ -10,8 +10,9 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
-      - name: "Checkout GitHub Action"
+      - name: "Checkout"
         uses: actions/checkout@main
 
       - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
@@ -19,14 +20,31 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: "Resolve Project Dependencies Using Pipenv"
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          # This path is specific to Ubuntu
+          path: ~/.cache/pip
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+
+      - name: "Build with pipenv"
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           python -m pip install pipenv --upgrade pip
           pipenv install
           popd
-      - name: "Run Azure Functions Action"
+
+      - name: "Test"
+        shell: bash
+        run: |
+          pipenv run pytest
+
+      - name: "Deploy to azure"
         uses: Azure/functions-action@v1
         id: fa
         with:
