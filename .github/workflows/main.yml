@@ -1,5 +1,6 @@
 name: Deploy to Azure Function
 
+# Run whenever the test workflow completes on branch main
 on:
   workflow_run:
     workflows: ["Run Tests"]
@@ -13,7 +14,7 @@ env:
   PYTHON_VERSION: "3.9"
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
