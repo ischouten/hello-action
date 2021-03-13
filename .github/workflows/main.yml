@@ -1,4 +1,4 @@
-name: Deploy to Azure Function"
+name: Deploy to Azure Function
 
 on:
   workflow_run:

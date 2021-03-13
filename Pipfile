@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 black = "*"
 mypy = "*"
+flake8 = "*"
 
 [packages]
 requests = "*"
@@ -16,6 +17,8 @@ pytest = "*"
 python_version = "3.9"
 
 [scripts]
+lint = "pipenv run flake8"
+test = "pipenv run pytest"
 
 [pipenv]
 allow_prereleases = true
