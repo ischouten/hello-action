@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pipenv-to-requirements = "*"
+black = "*"
+mypy = "*"
+
+[packages]
+requests = "*"
+azure-functions = "*"
+
+[requires]
+python_version = "3.9"
+
+[scripts]
+
+[pipenv]
+allow_prereleases = true
