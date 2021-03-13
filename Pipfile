@@ -12,6 +12,7 @@ flake8 = "*"
 requests = "*"
 azure-functions = "*"
 pytest = "*"
+logquicky = "*"
 
 [requires]
 python_version = "3.9"
@@ -19,6 +20,7 @@ python_version = "3.9"
 [scripts]
 lint = "pipenv run flake8"
 test = "pipenv run pytest"
+check-hints = "pipenv run mypy ."
 
 [pipenv]
 allow_prereleases = true
