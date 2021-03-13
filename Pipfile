@@ -6,11 +6,11 @@ verify_ssl = true
 [dev-packages]
 black = "*"
 mypy = "*"
-pytest = "*"
 
 [packages]
 requests = "*"
 azure-functions = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.9"
