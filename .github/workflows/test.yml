@@ -36,7 +36,7 @@ jobs:
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           python -m pip install pipenv --upgrade pip
-          pipenv install --dev
+          pipenv sync --dev
           popd
 
       - name: "Check test"
