@@ -13,7 +13,7 @@ requests = "*"
 azure-functions = "*"
 pytest = "*"
 logquicky = "*"
-opencensus-ext-azure = "*"
+applicationinsights = "*"
 
 [requires]
 python_version = "3.9"
@@ -22,6 +22,7 @@ python_version = "3.9"
 lint = "pipenv run flake8"
 test = "pipenv run pytest"
 check-hints = "pipenv run mypy ."
+local = "pipenv run func start"
 
 [pipenv]
 allow_prereleases = true

@@ -1,14 +1,14 @@
 import os
 import azure.functions as func
-from opencensus.ext.azure.log_exporter import AzureLogHandler
+from applicationinsights.logging import LoggingHandler
 import logquicky
 from utils.some_util import test_it
 
-log_instrumentation_key = os.environ.get("APPINSIGHTS_INSTRUMENTATION_KEY")
-
+app_insights_key = os.environ.get("APPINSIGHTS_INSTRUMENTATION_KEY")
 
 log = logquicky.load("hello", level="DEBUG")
-log.addHandler(AzureLogHandler(connection_string=log_instrumentation_key))
+app_insights_handler = LoggingHandler(app_insights_key)
+log.addHandler(app_insights_handler)
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
