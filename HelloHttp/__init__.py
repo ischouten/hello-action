@@ -4,7 +4,7 @@ import logquicky
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 from utils.some_util import test_it
 
-app_insights_key = os.environ.get("APPINSIGHTS_INSTRUMENTATION_KEY")
+app_insights_key = os.environ.get("APPINSIGHTS_INSTRUMENTATIONKEY")
 
 log = logquicky.load("hello", level="DEBUG")
 app_insights_handler = AzureLogHandler(connection_string=f"InstrumentationKey={app_insights_key}")
