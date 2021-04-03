@@ -8,7 +8,7 @@ on:
 env:
   AZURE_FUNCTIONAPP_NAME: "ischtn-hello-action"
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "."
-  PYTHON_VERSION: "3.9"
+  PYTHON_VERSION: "3.9.2"
 
 jobs:
   deploy:
@@ -27,7 +27,8 @@ jobs:
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           python -m pip install pipenv --upgrade pip
-          pipenv sync
+          pipenv install
+          pipenv graph
           popd
 
       - name: "Deploy to azure"
