@@ -1,12 +1,7 @@
 name: Deploy to Azure Function
 
-# Run whenever the test workflow completes on branch main
-on:
-  workflow_run:
-    workflows: ["Run Tests"]
-    branches: [main]
-    types:
-      - completed
+# Run whenever a release is created through github
+on: release
 
 env:
   AZURE_FUNCTIONAPP_NAME: "ischtn-hello-action"
@@ -31,7 +26,7 @@ jobs:
           # This path is specific to Ubuntu
           path: ~/.cache/pip
           # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-

@@ -26,7 +26,7 @@ jobs:
           # This path is specific to Ubuntu
           path: ~/.cache/pip
           # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
@@ -39,12 +39,12 @@ jobs:
           pipenv install --dev
           popd
 
-      - name: "Test"
+      - name: "Check test"
         shell: bash
         run: |
           pipenv run pytest
 
-      - name: "Check with Linter"
+      - name: "Check for linter errors"
         shell: bash
         run: |
           pipenv run flake8 ./**/*.py -v

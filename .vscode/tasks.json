@@ -11,28 +11,28 @@
 			"group": {
 				"kind": "build",
 				"isDefault": true
-			},
+			}
 		},
 		{
-			"type": "func",
-			"command": "host start",
-			"problemMatcher": "$func-watch",
-			"isBackground": true,
-			"dependsOn": "pipInstall"
-		},
-		{
-			"label": "pipInstall",
+			"label": "Run linter",
 			"type": "shell",
-			"osx": {
-				"command": "${config:azureFunctions.pythonVenv}/bin/python -m pip install -r requirements.txt"
-			},
-			"windows": {
-				"command": "${config:azureFunctions.pythonVenv}\\Scripts\\python -m pip install -r requirements.txt"
-			},
-			"linux": {
-				"command": "${config:azureFunctions.pythonVenv}/bin/python -m pip install -r requirements.txt"
-			},
-			"problemMatcher": []
+			"command": "pipenv run lint",
+			"problemMatcher": [
+				"$func-watch"
+			]
+		},
+		{
+			"label": "Run tests",
+			"type": "shell",
+			"command": "pipenv run test",
+			"problemMatcher": [
+				"$func-watch"
+			]
+		},
+		{
+			"label": "Check type hints",
+			"type": "shell",
+			"command": "pipenv run check-hints"
 		}
 	]
 }

@@ -13,6 +13,7 @@ requests = "*"
 azure-functions = "*"
 pytest = "*"
 logquicky = "*"
+opencensus-ext-azure = "*"
 
 [requires]
 python_version = "3.9"
