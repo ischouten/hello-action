@@ -16,7 +16,7 @@ logquicky = "*"
 applicationinsights = "*"
 
 [requires]
-python_version = "3.9"
+python_full_verion = "3.9.0"
 
 [scripts]
 lint = "pipenv run flake8"
