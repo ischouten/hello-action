@@ -7,11 +7,11 @@ verify_ssl = true
 black = "*"
 mypy = "*"
 flake8 = "*"
+pytest = "*"
 
 [packages]
 requests = "*"
 azure-functions = "*"
-pytest = "*"
 logquicky = "*"
 applicationinsights = "*"
 
