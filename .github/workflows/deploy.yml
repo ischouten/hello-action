@@ -1,12 +1,7 @@
 name: Deploy to Azure Function
 
-# Run whenever the test workflow completes on branch main
-on:
-  workflow_run:
-    workflows: ["Run Tests"]
-    branches: [main]
-    types:
-      - completed
+# Run whenever a release is created through github
+on: release
 
 env:
   AZURE_FUNCTIONAPP_NAME: "ischtn-hello-action"

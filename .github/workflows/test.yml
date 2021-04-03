@@ -39,12 +39,12 @@ jobs:
           pipenv install --dev
           popd
 
-      - name: "Test"
+      - name: "Check test"
         shell: bash
         run: |
           pipenv run pytest
 
-      - name: "Check with Linter"
+      - name: "Check for linter errors"
         shell: bash
         run: |
           pipenv run flake8 ./**/*.py -v
