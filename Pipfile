@@ -13,7 +13,8 @@ pytest = "*"
 requests = "*"
 azure-functions = "*"
 logquicky = "*"
-applicationinsights = "*"
+opencensus = "*"
+opencensus-ext-azure = "*"
 
 [requires]
 python_full_verion = "3.9.2"
