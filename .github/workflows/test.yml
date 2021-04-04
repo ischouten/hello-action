@@ -1,9 +1,9 @@
 name: Run Tests
 
-# Run on push or merge of PR on any branch.
+# Run on push or merge of PR on any branch that's not a feature branch.
 on:
   push:
-    branches: ["*"]
+    branches-ignore: ["feature/*"]
 
 env:
   AZURE_FUNCTIONAPP_NAME: "ischtn-hello-action"
@@ -16,9 +16,6 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@main
-
-      - name: Extract Branch Name
-        run: echo "BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
 
       - name: Echo Branch name
         run: echo "Branch is ${{BRANCH}}"

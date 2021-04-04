@@ -1,17 +1,12 @@
 name: Deploy to Azure Function
 
-# Run whenever a release is created through github
-# on:
-#   release:
-#     types: ["created"]
-
 # Run when the Run Tests workflow completes.
 # We will also check if the workflow completed on the main branch and only if it on a tag.
 on:
   workflow_run:
     workflows: ["Run Tests"]
-    types:
-      - completed
+    tags:
+      - "*"
 
 env:
   AZURE_FUNCTIONAPP_NAME: "ischtn-hello-action"
@@ -19,17 +14,9 @@ env:
   PYTHON_VERSION: "3.9.2"
 
 jobs:
-  test-everything:
-    runs-on: ubuntu-latest
-
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Tag was pushed to main."
-
-      - name: "Checkout"
-        uses: actions/checkout@v2
-
       - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
         uses: actions/setup-python@v2
         with:
