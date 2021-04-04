@@ -19,6 +19,8 @@ jobs:
 
       - name: Extract Branch Name
         run: echo "BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
+
+      - name: Echo Branch name
         run: echo "${GITHUB_ENV}"
 
       - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
