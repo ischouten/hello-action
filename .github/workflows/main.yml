@@ -1,27 +1,53 @@
-name: Deploy to Azure Function
+name: Run Tests
 
-# Run when the Run Tests workflow completes.
-# We will also check if the workflow completed on the main branch and only if it on a tag.
+# Run on push or merge of PR on any branch that's not a feature branch.
 on:
-  workflow_run:
-    workflows: ["Run Tests"]
-    types: [completed]
-    branches: main
-    tags:
-      - "*"
+  push:
+    branches-ignore: ["feature/*"]
+    tags: ["**"]
 
 env:
   AZURE_FUNCTIONAPP_NAME: "ischtn-hello-action"
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "."
-  PYTHON_VERSION: "3.9.2"
+  PYTHON_VERSION: "3.9"
 
 jobs:
+  test-all:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@main
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: "Build with pipenv"
+        shell: bash
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          python -m pip install pipenv --upgrade pip
+          pipenv install --dev
+          popd
+
+      - name: "Check test"
+        shell: bash
+        run: |
+          pipenv run pytest
+
+      - name: "Check for linter errors"
+        shell: bash
+        run: |
+          pipenv run flake8 ./**/*.py -v
+
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: test-all
     steps:
       - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
         uses: actions/setup-python@v2
+        if: success() && startsWith(github.ref, 'refs/tags')
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -36,7 +62,7 @@ jobs:
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
 
-      - name: "Build with pipenv"
+      - name: "Build for deployment"
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
