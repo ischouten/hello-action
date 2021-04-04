@@ -18,18 +18,16 @@ jobs:
         uses: actions/checkout@main
 
       - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: "Build with pipenv"
         shell: bash
-
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           python -m pip install pipenv --upgrade pip
-          pipenv lock --dev -r | sed 's/-e //g' | pip install --upgrade -r /dev/stdin --target=".python_packages/lib/site-packages"
-          pipenv graph
+          pipenv install --dev
           popd
 
       - name: "Check test"
