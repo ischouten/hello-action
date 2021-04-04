@@ -19,32 +19,11 @@ env:
   PYTHON_VERSION: "3.9.2"
 
 jobs:
-  on-main-branch-check:
+  test-everything:
     runs-on: ubuntu-latest
-    outputs:
-      on_main: ${{ steps.contains_tag.outputs.retval }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: rickstaa/action-contains-tag@v1
-        id: contains_tag
-        with:
-          reference: "main"
-          tag: "${{ github.ref }}"
-
-  tag-not-on-main-job:
-    runs-on: ubuntu-latest
-    needs: on-main-branch-check
-    if: ${{ needs.on-main-branch-check.outputs.on_main != 'true' }}
-    steps:
-      - run: echo "Tag was not pushed to main."
-      - run: echo ${{needs.on-main-branch-check.outputs.on_main}}
 
   deploy:
     runs-on: ubuntu-latest
-    needs: on-main-branch-check
-    if: ${{ needs.on-main-branch-check.outputs.on_main == 'true' }}
     steps:
       - run: echo "Tag was pushed to main."
 

@@ -21,7 +21,7 @@ jobs:
         run: echo "BRANCH=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
 
       - name: Echo Branch name
-        run: echo "${GITHUB_ENV}"
+        run: echo "Branch is ${BRANCH} ${ GITHUB_ENV.BRANCH}"
 
       - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
         uses: actions/setup-python@v2
