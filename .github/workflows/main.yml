@@ -46,9 +46,11 @@ jobs:
     if: startsWith( github.ref, 'refs/tags/releases/')
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout"
+        uses: actions/checkout@main
+
       - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
         uses: actions/setup-python@v2
-        if: success() && startsWith(github.ref, 'refs/tags')
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -67,9 +69,7 @@ jobs:
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          python -m pip install pipenv --upgrade pip
-          pipenv lock -r | sed 's/-e //g' | pip install --upgrade -r /dev/stdin --target=".python_packages/lib/site-packages"
-          pipenv graph
+          cat Pipfile.lock | sed 's/-e //g' | pip install --upgrade -r /dev/stdin --target=".python_packages/lib/site-packages"
           popd
 
       - name: "Deploy to azure"
