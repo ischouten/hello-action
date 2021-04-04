@@ -24,10 +24,12 @@ jobs:
 
       - name: "Build with pipenv"
         shell: bash
+
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           python -m pip install pipenv --upgrade pip
-          pipenv install --dev
+          pipenv lock --dev -r | sed 's/-e //g' | pip install --upgrade -r /dev/stdin --target=".python_packages/lib/site-packages"
+          pipenv graph
           popd
 
       - name: "Check test"

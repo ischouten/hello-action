@@ -19,4 +19,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     log.warn("This is a warning")
 
+    log.error("Error")
+
     return func.HttpResponse("Hello you! This worked!", status_code=200)

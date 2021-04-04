@@ -5,11 +5,11 @@ name: Deploy to Azure Function
 #   release:
 #     types: ["created"]
 
-# Run when the Run Tests workflow completes on the main branch
+# Run when the Run Tests workflow completes.
+# We will also check if the workflow completed on the main branch and only if it on a tag.
 on:
   workflow_run:
     workflows: ["Run Tests"]
-    branches: [main]
     types:
       - completed
 
@@ -19,14 +19,40 @@ env:
   PYTHON_VERSION: "3.9.2"
 
 jobs:
+  on-main-branch-check:
+    runs-on: ubuntu-latest
+    outputs:
+      on_main: ${{ steps.contains_tag.outputs.retval }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: rickstaa/action-contains-tag@v1
+        id: contains_tag
+        with:
+          reference: "main"
+          tag: "${{ github.ref }}"
+
+  tag-not-on-main-job:
+    runs-on: ubuntu-latest
+    needs: on-main-branch-check
+    if: ${{ needs.on-main-branch-check.outputs.on_main != 'true' }}
+    steps:
+      - run: echo "Tag was not pushed to main."
+      - run: echo ${{needs.on-main-branch-check.outputs.on_main}}
+
   deploy:
     runs-on: ubuntu-latest
+    needs: on-main-branch-check
+    if: ${{ needs.on-main-branch-check.outputs.on_main == 'true' }}
     steps:
+      - run: echo "Tag was pushed to main."
+
       - name: "Checkout"
-        uses: actions/checkout@main
+        uses: actions/checkout@v2
 
       - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
