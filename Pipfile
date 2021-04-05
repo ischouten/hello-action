@@ -12,7 +12,6 @@ pytest = "*"
 [packages]
 requests = "*"
 azure-functions = "*"
-logquicky = "*"
 opencensus = "*"
 opencensus-ext-azure = "*"
 

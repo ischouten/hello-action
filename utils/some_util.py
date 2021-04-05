@@ -1,6 +1,6 @@
-import logquicky
+import logging
 
-log = logquicky.load("hello")
+log = logging.getLogger("hello_app")
 
 
 def test_it(test_var: str) -> bool:
