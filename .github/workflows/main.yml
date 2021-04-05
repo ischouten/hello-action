@@ -4,7 +4,7 @@ name: Run Tests
 on:
   push:
     tags: releases/[0-9]+.[0-9]+.[0-9]+
-    branches: ["main", "develop"]
+    branches-ignore: ["main"]
 
 env:
   AZURE_FUNCTIONAPP_NAME: "ischtn-hello-action"

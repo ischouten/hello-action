@@ -1,5 +1,4 @@
 import os
-import sys
 import logging
 import logging.handlers
 from opencensus.ext.azure.log_exporter import AzureLogHandler
